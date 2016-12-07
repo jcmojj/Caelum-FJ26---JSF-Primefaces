@@ -1,24 +1,52 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://java.sun.com/jsf/core" xmlns:h="http://java.sun.com/jsf/html">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html">
 <h:head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<title>Sistema de Notas Fiscais</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<title>Sistema de Notas Fiscais</title>
 </h:head>
 <h:body>
+	<!--  formulario para adicionar o produto -->
 	<h:form>
-	<h:panelGrid columns="2">
-		<h:outputLabel value="Nome: " for="nome"></h:outputLabel>
-		<h:inputText id="nome"></h:inputText>
-		
-		<h:outputLabel value="Descrição: " for="descricao"></h:outputLabel>
-		<h:inputText id="descricao"></h:inputText>
-		
-		<h:outputLabel value="Preço:" for="preco"></h:outputLabel>
-		<h:inputText id="preco"></h:inputText>
-		
-		<h:commandButton value="Gravar"/>	
-	</h:panelGrid>
+		<h:panelGrid columns="2">
+			<h:outputLabel value="Nome: " for="nome"></h:outputLabel>
+			<h:inputText id="nome" value="#{produtoBean.produto.nome}"></h:inputText>
+
+			<h:outputLabel value="Descrição: " for="descricao"></h:outputLabel>
+			<h:inputText id="descricao" value="#{produtoBean.produto.descricao}"></h:inputText>
+
+			<h:outputLabel value="Preço:" for="preco"></h:outputLabel>
+			<h:inputText id="preco" value="#{produtoBean.produto.preco}"></h:inputText>
+
+			<h:commandButton value="Gravar" action="#{produtoBean.grava}" />
+		</h:panelGrid>
+	</h:form>
+
+	<!-- formulario para retirar o produto  -->
+	<h:form>
+		<h:dataTable value="#{produtoBean.produtos}" var="produto">
+			<h:column>
+				<f:facet name="header">Nome</f:facet>
+			#{produto.nome}
+			</h:column>
+			<h:column>
+				<f:facet name="header">Descrição</f:facet>
+			#{produto.descricao}
+			</h:column>
+			<h:column>
+				<f:facet name="header">Preço</f:facet>
+				#{produto.preco}
+			<f:facet name="footer">#{produtoBean.listaSoma}</f:facet>
+			</h:column>
+			<h:column>
+				<f:facet name="header">Ações</f:facet>
+				<h:commandLink action="#{produtoBean.remove(produto)}" value="Remover"/>
+			</h:column>
+
+
+		</h:dataTable>
 	</h:form>
 </h:body>
 </html>
