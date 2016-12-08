@@ -5,12 +5,27 @@
 	xmlns:h="http://java.sun.com/jsf/html">
 <h:head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-	<title>Sistema de Notas Fiscais</title>
+	<title>Sistema de Notas Fiscais - Uberdist</title>
+	<h:outputStylesheet library="css" name="style.css"></h:outputStylesheet>
 </h:head>
 <h:body>
+	<header id="cabecalho"> <h:graphicImage library="imagens"
+		name="logo-uber.png"></h:graphicImage> 
+	</header>
 	<!--  formulario para adicionar o produto -->
-	<h:form>
-		<h:panelGrid columns="2">
+	<div id="conteudo">
+	<h2>
+		<h:outputText value="Novo Produto"
+			rendered="#{empty produtoBean.produto.id}"></h:outputText>
+		<h:outputText value="Editar Produto"
+			rendered="#{not empty produtoBean.produto.id}"></h:outputText>
+	</h2>
+	<h:form id="formProduto">
+		<h:inputHidden value="#{produtoBean.produto.id}" />
+		<fieldset>
+			<legend>Dados do Produto</legend>
+			
+			<!-- <h:panelGrid columns="2"> -->
 			<h:outputLabel value="Nome: " for="nome"></h:outputLabel>
 			<h:inputText id="nome" value="#{produtoBean.produto.nome}"></h:inputText>
 
@@ -20,33 +35,63 @@
 			<h:outputLabel value="Preço:" for="preco"></h:outputLabel>
 			<h:inputText id="preco" value="#{produtoBean.produto.preco}"></h:inputText>
 
-			<h:commandButton value="Gravar" action="#{produtoBean.grava}" />
-		</h:panelGrid>
-	</h:form>
+			<h:commandButton value="Gravar" action="#{produtoBean.grava}">
+				<f:ajax execute="@form" render="@form :formTabela" />
+				<!-- manda o formulario e executa a resposta nesse form @form e no form tabela :formTabela  -->
+			</h:commandButton>
 
-	<!-- formulario para retirar o produto  -->
-	<h:form>
-		<h:dataTable value="#{produtoBean.produtos}" var="produto">
+
+			<!-- <h:commandButton value="Gravar" action="{produtoBean.grava}" /> ->SEM AJAX
+			<h:commandButton value="Cancelar" action="{produtoBean.cancelar}"
+				rendered="{not empty produtoBean.produto.id}" /> -->
+			<!-- nao funciona o botao cancelar porque o rendered depende de uma request pra saber o estado do produto.. o produto digitado ainda nao foi enviado -->
+			<!-- </h:panelGrid> -->
+			
+		</fieldset>
+	</h:form>
+	<!-- formulario dos produto  -->
+	<h2>Listagem de Produtos</h2>
+	<h:form id="formTabela">
+		<h:dataTable value="#{produtoBean.produtos}" var="produto"
+			styleClass="dados" rowClasses="impar,par">
+
 			<h:column>
 				<f:facet name="header">Nome</f:facet>
 			#{produto.nome}
 			</h:column>
+
 			<h:column>
 				<f:facet name="header">Descrição</f:facet>
 			#{produto.descricao}
 			</h:column>
+
 			<h:column>
 				<f:facet name="header">Preço</f:facet>
 				#{produto.preco}
 			<f:facet name="footer">#{produtoBean.listaSoma}</f:facet>
 			</h:column>
+
 			<h:column>
-				<f:facet name="header">Ações</f:facet>
-				<h:commandLink action="#{produtoBean.remove(produto)}" value="Remover"/>
+				<f:facet name="header">Remover</f:facet>
+				<h:commandLink action="#{produtoBean.remove(produto)}"
+					value="Remover">
+					<f:ajax render="@form" />
+				</h:commandLink>
 			</h:column>
 
+			<h:column>
+				<f:facet name="header">Alterar</f:facet>
+				<h:commandLink value="Alterar">
+					<f:setPropertyActionListener target="#{produtoBean.produto}"
+						value="#{produto}" />
+					<f:ajax execute="@form" render=":formProduto :formTabela" />
+				</h:commandLink>
+			</h:column>
 
 		</h:dataTable>
 	</h:form>
+	</div>
+	<footer id="rodape"> Copyright 2013. Todos os direitor
+	reservados a Jose Carlos Oliveira </footer>
 </h:body>
 </html>
