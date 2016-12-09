@@ -11,6 +11,9 @@
 <h:body>
 	<header id="cabecalho"> <h:graphicImage library="imagens"
 		name="logo-uber.png"></h:graphicImage> 
+		<div id="usuarioLogado">
+			Logado como: #{loginBean.usuario.login}
+		</div>
 	</header>
 	<!--  formulario para adicionar o produto -->
 	<div id="conteudo">
