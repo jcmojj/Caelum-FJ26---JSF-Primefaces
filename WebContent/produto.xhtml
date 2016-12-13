@@ -12,7 +12,8 @@
 	<header id="cabecalho"> <h:graphicImage library="imagens"
 		name="logo-uber.png"></h:graphicImage> 
 		<div id="usuarioLogado">
-			Logado como: #{loginBean.usuario.login}
+			Logado como: #{usuarioLogadoBean.usuario.login}
+			<h:form><h:commandLink value="Logout" action="#{loginBean.logout}"></h:commandLink></h:form>
 		</div>
 	</header>
 	<!--  formulario para adicionar o produto -->
