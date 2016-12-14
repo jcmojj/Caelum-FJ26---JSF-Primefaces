@@ -1,0 +1,39 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core">
+<f:view contentType="text/html" />
+<h:head>
+	<title>Sistema de Notas Fiscais</title>
+	<h:outputStylesheet library="css" name="style.css" />
+</h:head>
+<h:body>
+	<header>
+		<h:graphicImage library="imagens" name="logo-uber.png" id="logoCompany" />
+		<ui:insert name="cabecalho" />
+		<div id="usuarioLogado">
+			Logado como: #{usuarioLogadoBean.usuario.login}
+			<h:form>
+				<h:commandLink value="Logout" action="#{loginBean.logout}"></h:commandLink>
+			</h:form>
+		</div>
+	</header>
+	<hr />
+	<br />
+	<section>
+		<ui:insert name="corpo" />
+	</section>
+	<footer>
+		<hr />
+		<ui:insert name="rodape" />
+		<span> </span>
+		<h:link outcome="index" value="Voltar para página inicial" />
+	</footer>
+</h:body>
+</html>
+
+
+
+
+
+
+
+

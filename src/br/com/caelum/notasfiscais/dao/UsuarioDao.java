@@ -28,4 +28,17 @@ public class UsuarioDao implements Serializable {
 
 		return encontrado;
 	}
+	
+	public boolean existeLogin(Usuario usuario){
+		Query query = manager.createQuery("select u from Usuario u where u.login = :pLogin")
+				.setParameter("pLogin", usuario.getLogin());
+		boolean sim = !query.getResultList().isEmpty();
+		return sim;
+	}
+	
+	public void adiciona(Usuario usuario) {
+		manager.getTransaction().begin();
+		manager.persist(usuario);
+		manager.getTransaction().commit();
+	}
 }

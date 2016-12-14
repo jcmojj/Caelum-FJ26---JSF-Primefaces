@@ -2,13 +2,20 @@ package br.com.caelum.notasfiscais.mb;
 
 import java.util.List;
 
-import javax.faces.bean.ManagedBean;
+import javax.enterprise.context.RequestScoped;
+import javax.inject.Inject;
+import javax.inject.Named;
 
 import br.com.caelum.notasfiscais.dao.ProdutoDao;
 import br.com.caelum.notasfiscais.modelo.Produto;
 
-@ManagedBean
+@Named
+@RequestScoped
 public class ProdutoBean {
+	
+	@Inject
+	private ProdutoDao dao;
+	@Inject
 	private Produto produto = new Produto();
 	private List<Produto> produtos;
 
@@ -21,19 +28,22 @@ public class ProdutoBean {
 	}
 
 	public void grava() {
-		ProdutoDao dao = new ProdutoDao();
-		if (produto.getId() == null){
-			dao.adiciona(produto);} else{
-				dao.atualiza(produto);
-			}
-		this.produto = new Produto(); //zera o valor do produto para poder cadastrar um novo
+//		ProdutoDao dao = new ProdutoDao();
+		if (produto.getId() == null) {
+			dao.adiciona(produto); System.out.println("teste adiciona");
+		} else {
+			dao.atualiza(produto); System.out.println("teste atualiza");
+		}
+		this.produto = new Produto(); // zera o valor do produto para poder
+										// cadastrar um novo
 		produtos = dao.listaTodos();
 	}
 
 	public List<Produto> getProdutos() {
 		if (produtos == null) {
 			System.out.println("Carregando produtos...");
-			produtos = new ProdutoDao().listaTodos();
+//			produtos = new ProdutoDao().listaTodos();
+			produtos = dao.listaTodos();
 		}
 		return produtos;
 	}
@@ -47,16 +57,15 @@ public class ProdutoBean {
 	}
 
 	public void remove(Produto produto) {
-		ProdutoDao dao = new ProdutoDao();
+//		ProdutoDao dao = new ProdutoDao();
 		dao.remove(produto);
 		this.produtos = dao.listaTodos();
 	}
-	
-	public void cancelar(){
+
+	public void cancelar() {
 		this.produto.setNome("");
 		this.produto.setDescricao("");
 		this.produto.setPreco(0.0);
 	}
-	
 
 }

@@ -7,20 +7,24 @@
 	</ui:define>
 
 	<ui:define name="corpo">
-			<h2>
-			<h:outputText value="Login no Sistema" />
-		</h2>
+		<h2>Cadastro sistema</h2>
 		<h:form id="formlogin">
 			<h:panelGrid columns="2" styleClass="campos">
-				<h:outputLabel value="Login:" for="login" />
+				
+				<h:outputLabel value="Escolha o login: " for="login" />
 				<h:inputText id="login" value="#{loginBean.usuario.login}" />
-				<h:outputLabel value="Senha:" for="senha" />
+				
+				<h:outputLabel value="Escolha a Senha:" for="senha" />
 				<h:inputSecret id="senha" value="#{loginBean.usuario.senha}" />
-				<h:commandButton value="Efetuar login" action="#{loginBean.efetuaLogin}" />
-				<h:commandButton value="Cadastre-se" action="cadastro" />
+				
+				<h:commandButton value="Confirmar" action="#{loginBean.cadastraUsuario}" />
+
+							
 			</h:panelGrid>
 		</h:form>
 	</ui:define>
 
 </ui:composition>
 </html>
+
+

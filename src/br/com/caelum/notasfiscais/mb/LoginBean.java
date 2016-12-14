@@ -11,7 +11,8 @@ import javax.inject.Named;
 import br.com.caelum.notasfiscais.dao.UsuarioDao;
 import br.com.caelum.notasfiscais.modelo.Usuario;
 
-@Named @RequestScoped//@SessionScoped //@ManagedBean
+@Named 
+@RequestScoped//@SessionScoped //@ManagedBean
 public class LoginBean implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -44,6 +45,19 @@ public class LoginBean implements Serializable {
 
 	public Usuario getUsuario() {
 		return usuario;
+	}
+	
+	public String cadastraUsuario(){
+		boolean loginValido = dao.existe(this.usuario);
+		if (loginValido){
+			usuarioLogado.deslogar();
+			this.usuario = new Usuario();
+			return "cadastro?faces-redirect=true";
+		}else{
+			dao.adiciona(usuario);
+			usuarioLogado.logar(usuario);
+			return "produto?faces-redirect=true";
+		}
 	}
 
 }
